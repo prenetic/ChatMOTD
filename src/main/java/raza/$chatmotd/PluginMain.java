@@ -72,7 +72,7 @@ public class PluginMain extends JavaPlugin implements Listener {
 				commandSender.sendMessage(
 						ChatColor.translateAlternateColorCodes('&', "&6Message of the day (MOTD) has been set!"));
 				for (String message: commandArgsStringList) {
-					org.bukkit.Bukkit.broadcastMessage(ChatColor.translateAlternateColorCodes('&', message));
+					org.bukkit.Bukkit.broadcast(ChatColor.translateAlternateColorCodes('&', message), "chatmotd.view");
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -107,11 +107,13 @@ public class PluginMain extends JavaPlugin implements Listener {
 
 	@EventHandler(priority = EventPriority.LOWEST)
 	public void event1(org.bukkit.event.player.PlayerJoinEvent event) throws Exception {
-		for (Object FINAL_loopValue1 : java.nio.file.Files.readAllLines(
-				new File(String.valueOf(PluginMain.getInstance().getDataFolder()), "chatmotd.txt").toPath(),
-				java.nio.charset.StandardCharsets.UTF_8)) {
-			((org.bukkit.command.CommandSender) (Object) ((org.bukkit.entity.Player) event.getPlayer()))
-					.sendMessage(ChatColor.translateAlternateColorCodes('&', String.valueOf(FINAL_loopValue1)));
+		if (event.getPlayer().hasPermission("chatmotd.view")) {
+			for (Object FINAL_loopValue1 : java.nio.file.Files.readAllLines(
+					new File(String.valueOf(PluginMain.getInstance().getDataFolder()), "chatmotd.txt").toPath(),
+					java.nio.charset.StandardCharsets.UTF_8)) {
+				((org.bukkit.command.CommandSender) (Object) ((org.bukkit.entity.Player) event.getPlayer()))
+						.sendMessage(ChatColor.translateAlternateColorCodes('&', String.valueOf(FINAL_loopValue1)));
+			}
 		}
 	}
 

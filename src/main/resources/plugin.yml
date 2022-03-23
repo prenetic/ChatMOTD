@@ -10,6 +10,8 @@ website: "https://prenetic.com/games/minecraft/"
 commands:
   motd:
     description: "View the in-game message of the day (MOTD)."
+    permission: "chatmotd.view"
+    permission-message: "You do not have the necessary permissions to view the message of the day (MOTD)."
     usage: "/<command>"
   motdset:
     description: "Set the in-game message of the day (MOTD)."
@@ -20,3 +22,6 @@ commands:
 permissions:
   chatmotd.set:
     description: "Allow setting the message of the day (MOTD)."
+  chatmotd.view:
+    description: "Allow viewing the message of the day (MOTD)."
+    default: true
