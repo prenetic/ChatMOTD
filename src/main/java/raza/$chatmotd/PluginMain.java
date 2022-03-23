@@ -2,6 +2,8 @@ package raza.$chatmotd;
 import java.io.*;
 import java.nio.file.*;
 import java.util.*;
+import java.util.regex.Pattern;
+
 import org.bukkit.*;
 import org.bukkit.command.*;
 import org.bukkit.event.*;
@@ -20,15 +22,15 @@ public class PluginMain extends JavaPlugin implements Listener {
 			for (Object FINAL_loopValue1 : java.nio.file.Files.readAllLines(
 					new File(String.valueOf(PluginMain.getInstance().getDataFolder()), "chatmotd.txt").toPath(),
 					java.nio.charset.StandardCharsets.UTF_8)) {
-				PluginMain.getInstance().getLogger().info(("The motd is set to:"
+				PluginMain.getInstance().getLogger().info(("The message of the day (MOTD) has been set to:"
 						+ ChatColor.translateAlternateColorCodes('&', String.valueOf(FINAL_loopValue1))));
 			}
-			PluginMain.getInstance().getLogger().info("Plugin has enabled.");
+			PluginMain.getInstance().getLogger().info("Plugin has been enabled.");
 			new Metrics(PluginMain.getInstance(), ((int) (14685d)));
 			if (PluginMain.hasSpigotUpdate("100844")) {
 				PluginMain.getInstance().getLogger()
 						.warning((ChatColor.translateAlternateColorCodes('&',
-								"&6There is an update available on spigot. Version: ")
+								"&6There is a &lChatMOTD&r&6 update available on SpigotMC. Version: ")
 								+ PluginMain.getSpigotVersion("100844")));
 			}
 		} catch (Exception e) {
@@ -60,24 +62,18 @@ public class PluginMain extends JavaPlugin implements Listener {
 			}
 			return true;
 		}
-		if (command.getName().equalsIgnoreCase("setchatmotd")) {
-			Object $2de0fd60f64bec84460174f6876c3f09 = null;
-			Object $3b8bde443fbeda39d6ad8708c40415aa = null;
+		if (command.getName().equalsIgnoreCase("motdset")) {
+			String[] commandArgsStringList = null;
+			Path outputPath = null;
 			try {
-				$3b8bde443fbeda39d6ad8708c40415aa = PluginMain.createList(commandArgs);
-				$2de0fd60f64bec84460174f6876c3f09 = String.join(" ",
-						((java.util.List) (Object) $3b8bde443fbeda39d6ad8708c40415aa));
-				new File(String.valueOf(PluginMain.getInstance().getDataFolder()), "chatmotd.txt").delete();
-				new File(String.valueOf(PluginMain.getInstance().getDataFolder()), "chatmotd.txt").createNewFile();
-				java.nio.file.Files.write(
-						new File(String.valueOf(PluginMain.getInstance().getDataFolder()), "chatmotd.txt").toPath(),
-						Collections.singleton(ChatColor.translateAlternateColorCodes('&',
-								String.valueOf($2de0fd60f64bec84460174f6876c3f09))),
-						java.nio.charset.StandardCharsets.UTF_8, java.nio.file.StandardOpenOption.WRITE);
-				commandSender.sendMessage(("The ChatMOTD has been set to: " + ChatColor
-						.translateAlternateColorCodes('&', String.valueOf($2de0fd60f64bec84460174f6876c3f09))));
-				org.bukkit.Bukkit.broadcastMessage(
-						ChatColor.translateAlternateColorCodes('&', String.valueOf($2de0fd60f64bec84460174f6876c3f09)));
+				commandArgsStringList = String.join(" ", commandArgs).split(Pattern.quote("\\n"));
+				outputPath = Path.of(String.valueOf(PluginMain.getInstance().getDataFolder()) + "/chatmotd.txt");
+				Files.write(outputPath, Arrays.asList(commandArgsStringList));
+				commandSender.sendMessage(
+						ChatColor.translateAlternateColorCodes('&', "&6Message of the day (MOTD) has been set!"));
+				for (String message: commandArgsStringList) {
+					org.bukkit.Bukkit.broadcastMessage(ChatColor.translateAlternateColorCodes('&', message));
+				}
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -91,26 +87,6 @@ public class PluginMain extends JavaPlugin implements Listener {
 
 	public static Object function(String function, List functionArgs) throws Exception {
 		return null;
-	}
-
-	public static List createList(Object obj) {
-		if (obj instanceof List) {
-			return (List) obj;
-		}
-		List list = new ArrayList<>();
-		if (obj.getClass().isArray()) {
-			int length = java.lang.reflect.Array.getLength(obj);
-			for (int i = 0; i < length; i++) {
-				list.add(java.lang.reflect.Array.get(obj, i));
-			}
-		} else if (obj instanceof Collection<?>) {
-			list.addAll((Collection<?>) obj);
-		} else if (obj instanceof Iterator) {
-			((Iterator<?>) obj).forEachRemaining(list::add);
-		} else {
-			list.add(obj);
-		}
-		return list;
 	}
 
 	public static void createResourceFile(String path) {
