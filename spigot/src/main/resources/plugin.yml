@@ -1,17 +1,27 @@
+main: "raza.$chatmotd.PluginMain"
 name: "ChatMOTD"
 version: "1.1.0"
-main: "raza.$chatmotd.PluginMain"
-api-version: 1.13
-authors: [MrRazamataz]
-description: "Set an MOTD for your chat player join message."
-prefix: "ChatMOTD"
-website: "mrrazamataz.ga"
+
+api-version: 1.18
+authors: [MrRazamataz, prenetic]
+description: "Provides an in-game message of the day (MOTD) for players on the server. Fork of the original plugin by MrRazamataz."
+website: "https://prenetic.com/games/minecraft/"
+
 commands:
-  setchatmotd:
-    aliases: [setmotd]
-    permission: "chatmotd.set"
-    permission-message: "You do not have the permission `chatmotd.set`"
-    usage: "/setchatmotd [message]"
   motd:
-    aliases: [showmotd]
+    description: "View the in-game message of the day (MOTD)."
+    permission: "chatmotd.view"
+    permission-message: "You do not have the necessary permissions to view the message of the day (MOTD)."
+    usage: "/<command>"
+  motdset:
+    description: "Set the in-game message of the day (MOTD)."
+    permission: "chatmotd.set"
+    permission-message: "You do not have the necessary permissions to set the message of the day (MOTD)."
+    usage: "/<command> [message]"
+
 permissions:
+  chatmotd.set:
+    description: "Allow setting the message of the day (MOTD)."
+  chatmotd.view:
+    description: "Allow viewing the message of the day (MOTD)."
+    default: true

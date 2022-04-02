@@ -1,1 +1,2 @@
-&6This is an example chatmotd. Set a new one with /setchatmotd <motd>
+&6This is an example message of the day (MOTD) from &lChatMOTD&r&6.
+&6Set a new one with the command '/motdset [message]'.
